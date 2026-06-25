@@ -1,0 +1,67 @@
+# LeetCode 3737 - Count Subarrays With Majority Element I
+
+## Intuition
+
+A target element is considered the majority element in a subarray if it appears **more than half** of the subarray's length.
+
+For every possible subarray, we need to determine whether:
+
+`frequency(target) > subarray_length / 2`
+
+Since the constraints are small (`n ≤ 1000`), we can enumerate all subarrays and maintain the count of the target element while expanding the subarray.
+
+---
+
+## Approach
+
+1. Iterate through all possible starting indices `i`.
+
+2. For each start index, expand the subarray using an ending index `j`.
+
+3. Maintain `targetCount`, the number of occurrences of `target` in the current subarray.
+
+4. Calculate the current subarray length:
+
+   `length = j - i + 1`
+
+5. If `targetCount > length / 2`, then the target is the majority element and we increment the answer.
+
+By updating `targetCount` incrementally, we avoid recounting elements for every subarray.
+
+---
+
+## Complexity Analysis
+
+* Time Complexity: **O(n²)**
+* Space Complexity: **O(1)**
+
+---
+
+## Java Solution
+
+```java
+class Solution {
+    public int countMajoritySubarrays(int[] nums, int target) {
+        int n = nums.length;
+        int res = 0;
+
+        for (int i = 0; i < n; i++) {
+            int targetCount = 0;
+
+            for (int j = i; j < n; j++) {
+                if (nums[j] == target) {
+                    targetCount++;
+                }
+
+                int length = j - i + 1;
+
+                if (targetCount > length / 2) {
+                    res++;
+                }
+            }
+        }
+
+        return res;
+    }
+}
+```
